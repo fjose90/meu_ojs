@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ojs_app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+      - ./ojs_files:/var/www/ojs_files
+    environment:
+      - OJS_DB_HOST=db
+      - OJS_DB_NAME=ojs
+      - OJS_DB_USER=ojs_user
+      - OJS_DB_PASSWORD=ojs_pass
+
+  db:
+    image: mariadb:10.5
+    container_name: ojs_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ojs
+      MYSQL_USER: ojs_user
+      MYSQL_PASSWORD: ojs_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
