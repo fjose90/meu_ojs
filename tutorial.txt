@@ -1,0 +1,13 @@
+git clone git@github.com:fjose90/meu_ojs.git --recurse-submodules -b stable-3_4_0
+cd meu_ojs
+cp config.TEMPLATE.inc.php config.inc.php
+# editar config.inc.php com dados do banco e email
+
+composer --working-dir=lib/pkp install
+composer --working-dir=plugins/generic/citationStyleLanguage install
+composer --working-dir=plugins/paymethod/paypal install
+
+npm install
+npm run build
+
+php -S localhost:8000
